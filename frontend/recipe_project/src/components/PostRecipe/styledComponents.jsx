@@ -29,6 +29,9 @@ export const FormContainer = styled.form`
     justify-conetnt: center;
     flex-direction: column;
     padding: 20px;
+    @media screen and (max-width: 576px){
+        width: 90%;
+    }
 `
 
 export const InputContainer = styled.div`
@@ -56,6 +59,9 @@ export const Input = styled.input`
     color: black;
     font-family: Caveat;
     font-weight: 700;
+    @media screen and (max-width: 576px){
+        width: 250px;
+    }
 `
 export const TextArea = styled.textarea`
     min-height: 70px;
@@ -68,6 +74,9 @@ export const TextArea = styled.textarea`
     color: black;
     font-family: Caveat;
     font-weight: 700;
+    @media screen and (max-width: 576px){
+        width: 250px;
+    }
 `
 
 export const SubmitButton = styled.button`

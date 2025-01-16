@@ -1,4 +1,4 @@
-const { trusted } = require("mongoose")
+// const { trusted } = require("mongoose")
 const foodRecipeModel = require("../models/foodRecipeModel")
 
 
@@ -38,7 +38,6 @@ const getRecipe = async(req, res) =>{
     try{
         const {id} = req.params
         const recipe = await foodRecipeModel.findById(id)
-        console.log(getRecipe)
         if(recipe){
             res.status(200).json({
                 status: "Success",
@@ -64,9 +63,7 @@ const editRecipe = async(req, res) =>{
     try{
         const {id} = req.params
         const bodyDetails = req.body
-        console.log("bodyDetails")
             const updatedRecipe = await foodRecipeModel.findByIdAndUpdate(id, bodyDetails, {new: true})
-            // console.log(updatedRecipe)
             res.status(200).json({
                 status: "Success",
                 message: "Succesffully updated the recipe data",

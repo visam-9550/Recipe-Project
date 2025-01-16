@@ -4,12 +4,17 @@ import AddRecipeSlice from "../Redux/Slices/addRecipeSlice";
 import { useSelector, useDispatch } from "react-redux";
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from "react-router-dom";
-const actions = AddRecipeSlice.actions
+import Cookie from "js-cookie"
+import EditSlice from "../Redux/Slices/editRecipeSlice";
 
+const actions = AddRecipeSlice.actions
+const editActions = EditSlice.actions
 function AddRecipe() {
   const {title, time, ingredients, process, successMsg, coverImage} = useSelector((store) => store.addRecipeState)
   const dispatch = useDispatch()
-
+  const userEmail = JSON.parse(Cookie.get("userDetails"))
+  const {editStatus, editId} = useSelector((store) => store.editSliceState)
+  const id = editId
   const clickOnSubmit = async(event) => {
     event.preventDefault();
     try{
@@ -18,43 +23,53 @@ function AddRecipe() {
         time: time,
         ingredients: ingredients,
         process: process,
-        username: "Venky",
+        username: userEmail.email,
         image: coverImage,
         favourite: false
       }
+      const method = editStatus ? "PUT" : "POST"
       const options = {
-        method: "POST",
+        method: method,
         headers:{
           "Content-type": "application/json"
         },
         body: JSON.stringify(addNewRecipeDetails)
       }
-      const resp = await fetch("http://localhost:3000/createRecipe", options)
-      const result = await resp.json()
-      dispatch(actions.setSuccessMsg(result.message))
+      if(!editStatus){
+        const resp = await fetch("http://localhost:3000/createRecipe", options)
+        const result = await resp.json()
+        dispatch(actions.setSuccessMsg(result.message))
+      }
+      if(editStatus){
+        console.log("Edit")
+        const editResp = await fetch(`http://localhost:3000/editRecipe/${id}`, options)
+        const editResult = await editResp.json()
+        console.log(editResult)
+        dispatch(actions.setSuccessMsg(editResult.message))
+      }
+
       dispatch(actions.setIngredients(""))
       dispatch(actions.setTime(""))
       dispatch(actions.setProcess(""))
       dispatch(actions.setTitle(""))
       dispatch(actions.setCoverImage(""))
-      
-      
-      
+      dispatch(editActions.setEditStatus(false))
     }catch(err){
-      dispatch(actions.setErrorMsg(result.message))
+      // dispatch(actions.setErrorMsg(result.message))
+
     }
-    
-    
+  }
+  const clcikOnCloseIcon = () =>{
+    dispatch(editActions.setEditStatus(false))
   }
   return (
     <AddRecipeContainer>
       <AddRecipeHeader>
-        <Heading>Add Recipe</Heading>
+        {editStatus ? <Heading>Edit Recipe</Heading>: <Heading>Add Recipe</Heading>}
         <Link to = "/">
-          <CloseIcon />
+          <CloseIcon onClick = {clcikOnCloseIcon}/>
         </Link>
       </AddRecipeHeader>
-        
         <FormContainer action = "POST">
           <InputContainer>
             <Label>Title</Label>

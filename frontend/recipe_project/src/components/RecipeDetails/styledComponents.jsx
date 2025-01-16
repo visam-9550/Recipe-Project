@@ -10,13 +10,27 @@ export const RecipeDetailsTopContainer = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    
+    @media screen and (max-width: 767px){
+        display: flex;
+        flex-direction: column;
+    }
 `
 export const RecipeImage = styled.img`
     background-size: cover;
     height: 250px;
     width: 450px;
     margin: 20px;
+    box-shadow: 0px 0px 10px 10px;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    @media screen and (max-width: 576px){
+        height: 200px;
+        width: 90%;
+    }
+    @media screen and (max-width: 767px) and (min-width: 577px){
+        height: 200px;
+        width: 320px;
+    }
 `
 export const RecipeDetailsTopDescrationContainer = styled.div`
     display: flex;
@@ -28,6 +42,7 @@ export const RecipeTitle = styled.h1`
     font-weight: 700;
     font-size: 24px;
     font-family: Caveat;
+    text-decoration: underline;
 `
 export const RecipeDuration = styled.p`
     font-weight: 700;

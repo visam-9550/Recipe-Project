@@ -1,4 +1,4 @@
-const userSampleModel = require("../models/userModels")
+const foodRecipeUserModel = require("../models/userModels")
 const jwt = require("jsonwebtoken")
 const {SECRET_KEY} = process.env
 
@@ -7,21 +7,12 @@ const {SECRET_KEY} = process.env
 const registerController = async(req, res) =>{
     try{
         const bodyDetails = req.body
-        const emailValidation = bodyDetails.email.endsWith("@gmail.com")
-        if(emailValidation){
-            const newUser = await userSampleModel.create(bodyDetails)
+        console.log(bodyDetails)
+            const newUser = await foodRecipeUserModel.create(bodyDetails)
             res.status(200).json({
                 status: "Registration Success",
                 newUser
             })
-        }else{
-            res.status(400).json({
-                status: "Registration failure",
-                message: "mention proper email address"
-            })
-        }
-        
-
     }catch(err){
         res.status(400).json({
             status: "Failure",
@@ -33,7 +24,7 @@ const registerController = async(req, res) =>{
 const loginController = async(req, res) => {
     try{
         const {email, password} = req.body
-        const userData = await userSampleModel.findOne({email})
+        const userData = await foodRecipeUserModel.findOne({email})
         console.log(userData)
         if(userData != null){
             if(userData.password == password){
@@ -63,6 +54,8 @@ const loginController = async(req, res) => {
         })
     }
 }
+
+
 
 const logoutController = async(req, res) =>{
     try{

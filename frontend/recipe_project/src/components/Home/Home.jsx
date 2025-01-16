@@ -1,20 +1,31 @@
 import React from 'react'
+import Cookies from 'js-cookie';
 import Footer from '../Footer/Footer.jsx'
 import Header from '../Header/Header.jsx'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import Recipes from '../Recipes/recipes.jsx'
-import {HomeContainer, BannerContainer, BannerLeftContainer, BannerRightContainer, BannerDescription, ShareRecipeButton, BannerImage, RecipesContainer} from "./styledComponents"
+import MyRecipes from '../MyRecipes/MyRecipes.jsx';
+import {HomeContainer, BannerContainer, BannerLeftContainer, BannerRightContainer, BannerTitle,BannerDescription, ShareRecipeButton, BannerImage, RecipesContainer} from "./styledComponents"
 
 
 function Home() {
+  const cookie = Cookies.get("userToken")
+  // const user = Cookies.get("userDetails")
+  // console.log(user)
+  if(cookie === undefined){
+    return <Navigate to = "/login" />
+  }
   return (
     <>
       <HomeContainer>
         <Header />
         <BannerContainer>
           <BannerLeftContainer>
+            <BannerTitle>
+              Recipeault
+            </BannerTitle>
             <BannerDescription>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel turpis purus. Praesent lorem dolor, finibus at sodales ac, vehicula et lacus. Morbi vitae est tempor, porttitor turpis tempus, commodo erat. Aenean ornare, leo ut scelerisque mattis, tortor est mattis quam, id mollis odio tellus ac metus. Donec porta sapien a auctor vehicula
+            From vault to plate, every recipe matters.
             </BannerDescription>
             <Link to ="/addRecipe">
               <ShareRecipeButton>
@@ -31,7 +42,6 @@ function Home() {
           <Recipes/>
         </RecipesContainer>
         
-        <Footer />
 
     </>
   )

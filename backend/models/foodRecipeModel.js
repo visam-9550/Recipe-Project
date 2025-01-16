@@ -11,7 +11,7 @@ const recipeSchema = new mongoose.Schema({
         unique: [true, "Recipe already exist"]
     },
     time:{
-        type: String,
+        type: Number,
         required: [true, "Mention time"]
     },
     ingredients:{

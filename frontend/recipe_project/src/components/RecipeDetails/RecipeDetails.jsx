@@ -14,6 +14,7 @@ function RecipeDetails() {
             setLoading(true)
             const resp = await fetch(`http://localhost:3000/getRecipe/${id}`)
             const data = await resp.json()
+            console.log(data)
             setLoading(false)
             setData(data.recipe)
             console.log(data.recipe)
@@ -33,10 +34,10 @@ function RecipeDetails() {
   return (
     <RecipeDetailsContainer>
         <RecipeDetailsTopContainer>
-            <RecipeImage src = "" />
+            <RecipeImage src = {data.image} />
             <RecipeDetailsTopDescrationContainer>
                 <RecipeTitle>
-                    {data.title}
+                    {data.title} Recipe Details
                 </RecipeTitle>
                 <RecipeDuration>
                     <Span>Time:- </Span>

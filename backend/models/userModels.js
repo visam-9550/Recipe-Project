@@ -1,36 +1,38 @@
 const mongoose = require("mongoose")
-const userSampleSchema = new mongoose.Schema({
-    userName:{
-        type:String,
-        required: [true, "Mention username"],
-        maxLength: [30, "Username length should exceeded 30 characters"],
+const { validate } = require("./foodRecipeModel")
+
+const foodRecipeUserSchema = new mongoose.Schema({
+    fullName:{
+        type: String,
+        required: [true, "Invalid data type"]
     },
     email:{
         type: String,
-        required: [true, "Mention your email address"],
-        unique: [true, "Email address already existed"]
-    },
-    phoneNumber:{
-        type:Number,
-        required: [true, "Mention your phone number"]
-    },
-    password:{
-        type: String,
-        required: [true, "Mention your password"],
-        minLength: [5, "Create your password with minimum length 5 characters"]
-    },
-    comparePassword:{
-        type:String,
-        required:[true, "Mention your compare password"],
+        required: [true, "Invalid data type"],
+        unique: [true, "Email already existed"],
         validate:{
-            validator:() =>{
-                this.password == this.comparePassword
+            validator: function(email){
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
             },
-            message: "Password and compare password was didn't match"
+            message: "Invalid email format"
+        }
+    },
+    password: {
+        type: String,
+        required: [true, "Invalid data type"],
+        minLength:[6, "Password length minimum 6"]
+    },
+    comfirmPassword: {
+        type: String,
+        validate:{
+            validator: function(){
+                this.confirmPassword === this.password
+            },
+            message: "Password didn't match"
         }
     }
-})
+}, {timestamps: true})
 
-const userSampleModel = mongoose.model("userModel", userSampleSchema)
-
-module.exports =  userSampleModel
+const foodRecipeUserModel = mongoose.model("foodRecipeUserModel", foodRecipeUserSchema);
+module.exports = foodRecipeUserModel;
