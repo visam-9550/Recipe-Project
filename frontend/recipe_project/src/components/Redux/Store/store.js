@@ -5,7 +5,7 @@ import AddRecipeSlice from "../Slices/addRecipeSlice";
 import EditSlice from "../Slices/editRecipeSlice";
 import PaginationSlice from "../Slices/paginationSlice";
 
-const store = configureStore({
+const Store = configureStore({
     reducer:{
         getRecipesDataState:  RecipeSlice.reducer,
         getRecipeDataState: individualRecipeSlice.reducer,
@@ -16,4 +16,4 @@ const store = configureStore({
     }
 })
 
-export default store;
+export default Store;
